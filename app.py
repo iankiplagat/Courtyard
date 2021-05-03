@@ -23,9 +23,9 @@ class Product(db.Model):
   name = db.Column(db.String(50), unique = True)
   description = db.Column(db.String(200))
   price = db.Column(db.Float)
-  qty = db.Column(db.Integer)
+  quantity = db.Column(db.Integer)
   
-  def __init__(self, name, description, price, qty):
+  def __init__(self, name, description, price, quantity):
     self.name = name
     self.description = description
     self.price = price
@@ -41,6 +41,20 @@ product_schema = ProductSchema()
 products_schema = ProductSchema(many=True)  
 
 #Create a product
+@app.route('/product', methods = ['POST'])
+def add_product():
+  name = request.json['name']
+  description = request.json['description']
+  price = request.json['price']
+  quantity = request.json['quantity']
+  
+  new_product = Product(name,description,price,quantity)
+  
+  db.session.add(new_product)
+  db.session.commit()
+  
+#return single product  
+  return product_schema.jsonify(new_product)
 
 
 #Running dev server
