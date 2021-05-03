@@ -57,6 +57,6 @@ def add_product():
   return product_schema.jsonify(new_product)
 
 
-#Running dev server
+#Running development server
 if __name__ == '__main__':
   app.run(debug=True)
